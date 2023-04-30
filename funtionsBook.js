@@ -16,12 +16,10 @@ async function attachHomePage(){
                 <label for="">Cauta</label>
                 <input type="text">
         </div>
-
     </header>
 
     
     <p><a class="button new_book">Create New Book</a></p>
-
     <table>
   
     <thead>
@@ -35,9 +33,7 @@ async function attachHomePage(){
     <tbody class="container-books">
     
     </tbody>
-
     </table>
-
     `;
 
     let data=await getAllBooks();
@@ -65,6 +61,8 @@ async function attachHomePage(){
         };
         attachUpdatePage(book);
     });
+
+    attachStudents();
 }
 
 async function attachUpdatePage(book){
@@ -78,8 +76,8 @@ async function attachUpdatePage(book){
         </ul>
 
         <p>
-            <label for="title">Title</label>
-            <input name="title" type="text" class="title" id="title" value="${book.title}">
+            <label for="titleInp">Title</label>
+            <input name="titleInp" type="text" class="titleInp" id="titleInp" value="${book.title}">
         </p>
 
         <p>
@@ -89,7 +87,7 @@ async function attachUpdatePage(book){
 
     <div>
         <button class="update">Update book</button>
-        <button class="delete" >Delete book</button>
+        <button class="delete">Delete book</button>
         <button class="cancel">Cancel</button>
     </div>
     `
@@ -101,7 +99,7 @@ async function attachUpdatePage(book){
         let btnUpdate=document.querySelector(".update");
 
         btnUpdate.addEventListener("click",async()=>{
-            let inp1=document.querySelector(".title");
+            let inp1=document.querySelector(".titleInp");
             let inp2=document.querySelector(".createdAt");
 
             let book={
@@ -111,27 +109,20 @@ async function attachUpdatePage(book){
 
             let erors=[];
             if(inp1.value==""){
-
                 erors.push("You must complete the title")
-
                 inp1.getElementsByClassName.borderColor="red";
             }
 
             if(inp2.value==""){
-
                 erors.push("You must complete the create date")
-
                 inp1.getElementsByClassName.borderColor="red";
-
             }
 
             if (erors.length > 0) {
                 let errorContainer = document.querySelector(".error");
           
                 let h1 = document.createElement("h1");
-          
                 h1.textContent = "Ooops";
-          
                 errorContainer.appendChild(h1);
           
                 for (let i = 0; i < erors.length; i++) {
@@ -158,11 +149,8 @@ async function attachUpdatePage(book){
         let btnDelete=document.querySelector(".delete");
 
         btnDelete.addEventListener("click",async()=>{
-
             let input=document.querySelector(".bookId");
-
             let bookId= input.value;
-
             let data=await  deleteBook(bookId);
 
             attachHomePage();
@@ -237,16 +225,12 @@ function attachNewBookPage(){
             errorContainer.innerHTML = "";
       
             let h1 = document.createElement("h1");
-    
             h1.textContent = "Ooops";
-      
             errorContainer.appendChild(h1);
       
             for (let i = 0; i < erors.length; i++) {
-              let li = document.createElement("li");
-      
+              let li = document.createElement("li");  
               li.textContent = erors[i];
-      
               errorContainer.appendChild(li);
             }
           } else {
@@ -265,9 +249,7 @@ function createCard(obj){
     let images=document.querySelector("img");
 
     images.classList.add('image');
-
     images.classList.add('imgClick');
-
     images.src="http:"+object.backdrop_path;
 
     div.appendChild(images);
@@ -275,8 +257,6 @@ function createCard(obj){
     div.addEventListener("click",()=>{
         updateMainBook(obj);
     })
-    
-
 }
 
 function createRow(book) {
@@ -290,7 +270,6 @@ function createRow(book) {
    ` ;
     return tr;
   }
-
 
   function attachRows(arr){
     let container=document.querySelector(".container-books");
