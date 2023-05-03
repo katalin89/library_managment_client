@@ -61,37 +61,37 @@ header nav a:hover {
     display: inline-block;
     margin-left: .5rem;
 }
-.course--module {
+.book--module {
     background: #7c689b;
     border-radius: .5rem;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     display: block;
 }
-.course--label {
+.book--label {
     color: #fff;
     font-size: .9rem;
     font-weight: 400;
     margin-bottom: .25rem;
 }
-.course--title {
+.book--title {
     color: #fff;
     font-weight: 700;
     font-size: 1.25rem;
 }
-.course--add--module {
+.book--add--module {
     background: #ddd9e4;
     color: #57496e;
     font-weight: 300;
     font-size: 1.25rem;
 }
-.course--add--title .add {
+.book--add--title .add {
     width: 20px;
     height: auto;
     margin-right: 5px;
     fill: #57496e;
 }
-.course--detail--title {
+.book--detail--title {
     padding-bottom: .25rem;
     border-bottom: 1px solid #888;
     margin: 3rem 0 .5rem;
@@ -100,13 +100,13 @@ header nav a:hover {
     text-transform: uppercase;
     letter-spacing: 2px;
 }
-.course--name {
+.book--name {
     font-size: 2rem;
     margin-bottom: .5rem;
     font-weight: 700;
     color: #47395e;
 }
-.course--detail--list {
+.book--detail--list {
     font-weight: 300;
     margin: 0 0 1.5rem 1rem;
     line-height: 1.5;
