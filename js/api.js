@@ -10,7 +10,7 @@ function api(path,method,body=null){
     };
 
     if(body!==null){
-        options.body=stringfy(body);
+        options.body=JSON.stringify(body);
     }
 
     return fetch(url,options);
@@ -18,4 +18,16 @@ function api(path,method,body=null){
 }
 
 //functie care ia ca parametru userul si password
+
+
+async function validateLogin(e, pwd){
+
+    let loginDTO = {
+        email : e,
+        password :pwd 
+    }
+    let data= await api("login",'POST',loginDTO);
+
+    return data;
+}
 

@@ -2,29 +2,7 @@ function attachLoginPage(){
 
     let container=document.querySelector(".container");
 
-    
-    let student={
-       // emailAddress:inp1.value,
-        password: inp2.value
-    }
-
     container.innerHTML=`
-
-    <input name="studentId" class="studentId" type="hidden" value="${student.studentId}"/>
-        
-        
-    <ul class="error">
-        
-    </ul>
-
-    <p>
-        <label for="emailInput">emailAdress</label>
-        <input name="emailAdress" type="text" class="email" id="email" value="${student.emailAdress}"  disabled>
-    </p>
-    <p>
-        <label for="passwordInpl">Password</label>
-        <input name="passwordInp" type="text" class="password" id="password" value="${student.password}">
-    </p>
 
     <div id="root">
     <header>
@@ -45,9 +23,9 @@ function attachLoginPage(){
             <form>
                 <label for="emailAddress">Email Address</label>
                 <input  class ="emailAdress" id="emailAddress" name="emailAddress" type="email" value="">
-                <label  class="passwrod" for="password">Password</label>
-                <input id="password" name="password" type="password" value="">
-                <button class="button" type="submit">Sign In </button><button class="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
+                <label  for="password">Password</label>
+                <input id="password" class="password" name="password" type="password" value="">
+                <button class="button" >Sign In </button><button class="button button-secondary">Cancel</button>
             </form>
             <p>Don't have a user account? Click here to <a href="sign-up.html">sign up</a>!</p>
             
@@ -56,39 +34,46 @@ function attachLoginPage(){
 </div>
     
     `
-    let inp1=document.querySelector(".emailAdress");
-    let inp2=document.querySelector(".password");
-    let erors=[];
-
-    if(inp1.value=""){
-        erors.push("You most complete  the email adress field");
-        inp1.getElementsByClassName.borderColor="red";
-
-    }
-
-    if(inp2==value==""){
-        erors.push("You most complete");
-        inp2.style.borderColor="red";
-    }
-
-    if(erors.length>0){
-        let errorContainer=document.querySelector(".")
-    }
-    
-
   
+    let btnSignIn=document.querySelector(".button");
 
-
-     let btnSignIn=document.querySelector(".button");
     btnSignIn.addEventListener("click",(e)=>{
-        attachStartPage();
-    })
 
+        let inp1=document.querySelector(".emailAdress");
+        let inp2=document.querySelector(".password");
 
-    
+        let student={
+            emailAddress:inp1.value,
+             password: inp2.value
+         }
+
+         let erors=[];
+
+        if(inp1.value=""){
+            erors.push("You most complete  the email adress field");
+            inp1.getElementsByClassName.borderColor="red";
+
+        }
+
+        if(inp2.value==""){
+            erors.push("You most complete");
+            inp2.style.borderColor="red";
+        }
+
+        if(erors.length>0){
+            let errorContainer=document.querySelector(".")
+        }
+
+        if (validate(student.emailAddress,student.password)){
+            attachStartPage();
+        }
+    })    
 };
 
-async function validate( emailAddress,password){
+
+async function  validate( emailAddress,password) {
+    if (validateLogin(emailAddress,password) != null) return true;
+    else return false;
 
 }
 
