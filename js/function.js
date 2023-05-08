@@ -3,7 +3,6 @@ function attachLoginPage(){
     let container=document.querySelector(".container");
 
     container.innerHTML=`
-
     <div id="root">
     <header>
         <div class="wrap header--flex">
@@ -114,7 +113,15 @@ async function  attachStartPage(){
                     viewBox="0 0 13 13" class="add"><polygon points="7,6 7,0 6,0 6,6 0,6 0,7 6,7 6,13 7,13 7,7 13,7 13,6 "></polygon></svg>
                     New Book 
                 </span>
+
             </a>
+
+           <div class="buttons">
+                <button class="buttonStart">Update</button>
+                <button class="buttonStart">Delete</button>
+                <button class="buttonStart">Cancel</button>
+
+            </div
         </div>
     </main>
 </div>
@@ -165,7 +172,6 @@ async function attachBookPage(){
                             <h3 class="book--detail--title">Book</h3>
                             <h4 class="book--name">Build a Basic Bookcase</h4>
                             <p>By Joe Smith</p>
-
                             <p>High-end furniture projects are great to dream about. But unless you have a well-equipped shop and some serious woodworking experience to draw on, it can be difficult to turn the dream into a reality.</p>
                             
                             <p>Not every piece of furniture needs to be a museum showpiece, though. Often a simple design does the job just as well and the experience gained in completing it goes a long way toward making the next project even better.</p>
@@ -181,7 +187,6 @@ async function attachBookPage(){
                         <div>
                             <h3 class="book--detail--title">Estimated Time</h3>
                             <p>14 hours</p>
-
                             <h3 class="book--detail--title">Materials Needed</h3>
                             <ul class="book--detail--list">
                                 <li>1/2 x 3/4 inch parting strip</li>
@@ -201,7 +206,6 @@ async function attachBookPage(){
             </div>
         </main>
     </div>
-
     
     `
 
@@ -217,29 +221,5 @@ function verifyUser(){
 }
 
 
-
-
-/*function verifyPassword() {  
-  var pw = document.getElementById("pswd").value;  
-  //check empty password field  
-  if(pw == "") {  
-     document.getElementById("message").innerHTML = "**Fill the password please!";  
-     return false;  
-  }  
-   
- //minimum password length validation  
-  if(pw.length < 8) {  
-     document.getElementById("message").innerHTML = "**Password length must be atleast 8 characters";  
-     return false;  
-  }  
-  
-//maximum length of password validation  
-  if(pw.length > 15) {  
-     document.getElementById("message").innerHTML = "**Password length must not exceed 15 characters";  
-     return false;  
-  } else {  
-     alert("Password is correct");  
-  }  
-}  */
 
 
