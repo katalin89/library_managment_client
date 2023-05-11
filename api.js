@@ -38,11 +38,20 @@ async function validateLogin(e, pwd){
 
 
 
-async function getAllBooks(){
-    let data = await api("studentsBook/{id}",'GET');
+async function getAllBooks(id){
+    let data = await api(`studentsBook/${id}`,'GET');
 
 
     data= await data.json();
 
     return data;
+}
+
+async function deleteBook(bookId){
+    let data=await api(`delete/${bookId}`,'DELETE');
+
+}
+
+async function deleteByBookName(){
+    let data=await api(`deleteByBookName/${bookId}/${bookName}`,'DELETE');
 }

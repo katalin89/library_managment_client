@@ -69,7 +69,9 @@ async function attachLoginPage(){
         try {
             let loggedIn =await validateLogin(student.emailAddress,student.password);
 
-            attachStartPage();
+           // attachStartPage(loggedIn.id);
+
+           attachStartPage(9);
 
             console.log(loggedIn);
            } catch (error) {
@@ -176,22 +178,18 @@ async function attachBookPage(studentId){
     
 		<thead >
 			<tr class="root-sort">
-            <th class="id">Id</th>
-            <th class="culoare">Title</th>
-			<th class="marca">CreatedAt</th>
+            <th class="bookId">Id</th>
+            <th class="bookName">Title</th>
+			<th class="createdAt">CreatedAt</th>
 			</tr>
 		</thead>
 
-		<tbody class="root-book">
+		<tbody class="root-books">
 		
 		</tbody>
 	</table>
     
-    <div class="buttons">
-    <button class="buttonStart update">Update </button>
-    <button class="buttonStart delete">Delete </button>
-    <button class="buttonStart cancel">Cancel </button>
-</div>
+
     `
 
     let data = await getAllBooks(studentId);
@@ -203,7 +201,8 @@ async function attachBookPage(studentId){
     btnDelete.addEventListener("click",async() =>{
         let inputS=document.querySelector(".studentId");
 
-        let studentId=inputS.value;      
+        let studentId=inputS.value; 
+
         let input=document.querySelector(".bookId");
 
         let bookId=input.value;
@@ -218,8 +217,72 @@ async function attachBookPage(studentId){
         attachStartPage();
     })
 
+    let rowsContainer = document.querySelector(".root-books");
+    rowsContainer.addEventListener("click",async (e) =>{ onBookClick(e)});
 
 }
+
+function onBookClick(e){
+    e.preventDefault();
+    let data = e.target.parentNode;
+
+    let bookProperties = data.children;
+
+
+    const book = {
+      bookId: bookProperties[0].innerHTML,
+      bookName: bookProperties[1].innerHTML,
+      createdAt: bookProperties[2].innerHTML,
+
+    };
+
+    attachUpdatePage(book);
+}
+
+async function attachUpdatePage(book) {
+    let root = document.querySelector(".root-books");
+  
+    //input type=hidden nu este visibil pe pagina, dar se poate citi valoarea lui.
+    root.innerHTML = ` <h1>Update book</h1> 
+          <input name="bookId" class="bookId" type="hidden" value="${book.bookId}"/>        
+          <ul class="error">
+              
+          </ul>
+  
+          <p>
+              <label for="bookName">Book Name</label>
+              <input name="bookName" type="text" class="bookName" id="bookName" value="${book.bookName}"  >
+          </p>
+          <p>
+              <label for="createdAt">Created Agt</label>
+              <input name="createdAt" type="text" class="createdAt" id="createdAt" value="${book.createdAt}">
+          </p>
+          <div>
+              <button class="update">Update book</button>
+              <button class="delete" >Delete book</button>
+              <button class="cancel">Cancel</button>
+          </div>
+    `;
+  
+    let btnCancel = document.querySelector(".cancel");
+    btnCancel.addEventListener("click", () => {
+      attachHomePage();
+    });
+  
+    let btnDelete = document.querySelector(".delete");
+    btnDelete.addEventListener("click", async () => {
+      let input = document.querySelector(".bookId");
+  
+      let bookId = input.value;
+  
+      await deleteBook(bookId);
+  
+      attachHomePage();
+    });
+  }
+  
+
+
 
 //functie care ia ca parametru userul si password
 
@@ -234,7 +297,7 @@ function attachRows(arr) {
   
     root.innerHTML="";
     for (let i = 0; i < arr.length; i++) {
-      container.appendChild(createRow(arr[i]));
+      root.appendChild(createRow(arr[i]));
     }
   }
 

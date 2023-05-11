@@ -240,6 +240,19 @@ input:focus, button:focus, .button:focus, textarea:focus {
     }
 }
 
+
+tr {
+    min-height: 50px;
+  }
+  
+  tr:nth-child(2n) {
+    background:#7c689b;
+  }
+  
+  td {
+    padding: 5px 20px 5px 10px;
+  }
+
 /* .buttons{
     display: flex;
     flex-direction: row;
