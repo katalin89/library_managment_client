@@ -1,16 +1,16 @@
 async function attachLoginPage(){
 
-    let container=document.querySelector(".container");
+    let root=document.querySelector("#root");
 
-    container.innerHTML=`
+    root.innerHTML=`
     <div id="root">
     <header>
         <div class="wrap header--flex">
-            <h1 class="header--logo"><a href="index.html">Student</a></h1>
+            <h1 class="header--logo">Student</a></h1>
             <nav>
                 <ul class="header--signedout">
-                    <li><a href="sign-up.html">Sign Up</a></li>
-                    <li><a href="sign-in.html">Sign In</a></li>
+                    <li>Sign Up</a></li>
+                    <li>Sign In</a></li>
                 </ul>
             </nav>
         </div>
@@ -19,13 +19,14 @@ async function attachLoginPage(){
         <div class="form--centered">
             <h2>Sign In</h2>
             
-            <form>
+            <section>
                 <label for="emailAddress">Email Address</label>
                 <input class ="emailAdress" id="emailAddress" name="emailAddress" type="email" value="">
                 <label  for="password">Password</label>
                 <input id="password" class="password" name="password" type="password" value="">
-                <button class="button">Sign In </button><button class="button button-secondary">Cancel</button>
-            </form>
+                <button class="button">Sign In </button>
+                <button class="button button-secondary">Cancel</button>
+            </section>
             <p>Don't have a user account? Click here to <a href="sign-up.html">sign up</a>!</p>
             
         </div>
@@ -60,29 +61,59 @@ async function attachLoginPage(){
         }
 
         if(erors.length>0){
-            let errorContainer=document.querySelector(".")
+            let errorRoot=document.querySelector("#root")
         }
 
         //fara await rularea merge mai departe si nu primesc id ul studentului pe care vreau sa atasez la input
         //daca scriu await atuncia pagina face un reload.
-        let loggedIn = await getLoggedInUser(student);
+        try {
+            let loggedIn =await validateLogin(student.emailAddress,student.password);
 
-        if (loggedIn!=null){
-            attachStartPage(loggedIn.id);
-        }
+           // attachStartPage(loggedIn.id);
+
+           attachStartPage(9);
+
+            console.log(loggedIn);
+           } catch (error) {
+           
+
+            attachErrorPage();
+
+           }
     })    
 };
 
-async function getLoggedInUser(student){
-    let loggedIn =await validateLogin(student.emailAddress,student.password);
-    return loggedIn;
+
+
+async function attachErrorPage(){
+    let root=document.querySelector('#root');
+
+    root.innerHTML=`
+    <header>
+            <div class="wrap header--flex">
+                <h1 class="header--logo"><a href="index.html">Students</a></h1>
+                <nav>
+                    <ul class="header--signedin">
+                        <li>Error message!</li>
+                    
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div class="wrap">
+                <h2>Error</h2>
+                <p>Sorry! Username or password incorrect</p>
+            </div>
+        </main>
+    `
 }
 
 async function attachStartPage(studentId){
 
-    let container=document.querySelector(".container");
+    let root=document.querySelector("#root");
 
-    container.innerHTML=`
+    root.innerHTML=`
     <div id="root">
     <header>
         <input name="studentId" class="studentId" type="hidden" value="${studentId}"/>
@@ -139,30 +170,26 @@ async function attachStartPage(studentId){
 
 async function attachBookPage(studentId){
 
-    let container=document.querySelector(".container");
-    container.innerHTML=`
+    let root=document.querySelector("#root");
+    root.innerHTML=`
     <input name="studentId" class="studentId" type="hidden" value="${studentId}"/>
 
 	<table>
     
 		<thead >
-			<tr class="container-sort">
-            <th class="id">Id</th>
-            <th class="culoare">Title</th>
-			<th class="marca">CreatedAt</th>
+			<tr class="root-sort">
+            <th class="bookId">Id</th>
+            <th class="bookName">Title</th>
+			<th class="createdAt">CreatedAt</th>
 			</tr>
 		</thead>
 
-		<tbody class="container-book">
+		<tbody class="root-books">
 		
 		</tbody>
 	</table>
     
-    <div class="buttons">
-    <button class="buttonStart update">Update </button>
-    <button class="buttonStart delete">Delete </button>
-    <button class="buttonStart cancel">Cancel </button>
-</div>
+
     `
 
     let data = await getAllBooks(studentId);
@@ -174,7 +201,8 @@ async function attachBookPage(studentId){
     btnDelete.addEventListener("click",async() =>{
         let inputS=document.querySelector(".studentId");
 
-        let studentId=inputS.value;      
+        let studentId=inputS.value; 
+
         let input=document.querySelector(".bookId");
 
         let bookId=input.value;
@@ -189,8 +217,72 @@ async function attachBookPage(studentId){
         attachStartPage();
     })
 
+    let rowsContainer = document.querySelector(".root-books");
+    rowsContainer.addEventListener("click",async (e) =>{ onBookClick(e)});
 
 }
+
+function onBookClick(e){
+    e.preventDefault();
+    let data = e.target.parentNode;
+
+    let bookProperties = data.children;
+
+
+    const book = {
+      bookId: bookProperties[0].innerHTML,
+      bookName: bookProperties[1].innerHTML,
+      createdAt: bookProperties[2].innerHTML,
+
+    };
+
+    attachUpdatePage(book);
+}
+
+async function attachUpdatePage(book) {
+    let root = document.querySelector(".root-books");
+  
+    //input type=hidden nu este visibil pe pagina, dar se poate citi valoarea lui.
+    root.innerHTML = ` <h1>Update book</h1> 
+          <input name="bookId" class="bookId" type="hidden" value="${book.bookId}"/>        
+          <ul class="error">
+              
+          </ul>
+  
+          <p>
+              <label for="bookName">Book Name</label>
+              <input name="bookName" type="text" class="bookName" id="bookName" value="${book.bookName}"  >
+          </p>
+          <p>
+              <label for="createdAt">Created Agt</label>
+              <input name="createdAt" type="text" class="createdAt" id="createdAt" value="${book.createdAt}">
+          </p>
+          <div>
+              <button class="update">Update book</button>
+              <button class="delete" >Delete book</button>
+              <button class="cancel">Cancel</button>
+          </div>
+    `;
+  
+    let btnCancel = document.querySelector(".cancel");
+    btnCancel.addEventListener("click", () => {
+      attachHomePage();
+    });
+  
+    let btnDelete = document.querySelector(".delete");
+    btnDelete.addEventListener("click", async () => {
+      let input = document.querySelector(".bookId");
+  
+      let bookId = input.value;
+  
+      await deleteBook(bookId);
+  
+      attachHomePage();
+    });
+  }
+  
+
+
 
 //functie care ia ca parametru userul si password
 
@@ -201,11 +293,11 @@ function verifyUser(){
 
 //attatch rows
 function attachRows(arr) {
-    let container = document.querySelector(".container-books");
+    let root = document.querySelector(".root-books");
   
-    container.innerHTML="";
+    root.innerHTML="";
     for (let i = 0; i < arr.length; i++) {
-      container.appendChild(createRow(arr[i]));
+      root.appendChild(createRow(arr[i]));
     }
   }
 
