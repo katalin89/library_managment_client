@@ -166,9 +166,20 @@ input, textarea {
 textarea {
     min-height: 300px;
 }
-
-
-
+.button {
+    background: #7c689b;
+    color: #fff;
+    font-size: 1rem;
+    padding: .75rem 1.5rem;
+    border: 0;
+    margin: 0 0 .5rem 0;
+    display: block;
+    width: 210px;
+    text-align: center;
+    border-radius: .5rem;
+    font-weight: bold;
+    transition: background 0.2s;
+}
 .button:last-child {
     margin-bottom: 0;
 }
@@ -220,7 +231,7 @@ input:focus, button:focus, .button:focus, textarea:focus {
         margin-left: 8%;
         flex-basis: 30%;
     }
-    .course--detail--title {
+    .book--detail--title {
         margin: 1.5rem 0 .5rem;
     }
     .button {
@@ -229,11 +240,12 @@ input:focus, button:focus, .button:focus, textarea:focus {
     }
 }
 
-.buttons{
-    display:  flex;
+/* .buttons{
+    display: flex;
     flex-direction: row;
 }
-.buttonStart {
+
+.buttonStart{
     background: #7c689b;
     color: #fff;
     font-size: 1rem;
@@ -242,13 +254,11 @@ input:focus, button:focus, .button:focus, textarea:focus {
     margin: 20px;
     display: block;
     width: 210px;
-    height: 140;
+    height: 140px;
     text-align: center;
     border-radius: .5rem;
     font-weight: bold;
     transition: background 0.2s;
 
-    color: #fff;
-    font-weight: 700;
-    font-size: 1.25rem;
-}
+
+} */

@@ -1,16 +1,16 @@
 async function attachLoginPage(){
 
-    let container=document.querySelector(".container");
+    let root=document.querySelector("#root");
 
-    container.innerHTML=`
+    root.innerHTML=`
     <div id="root">
     <header>
         <div class="wrap header--flex">
-            <h1 class="header--logo"><a href="index.html">Student</a></h1>
+            <h1 class="header--logo">Student</a></h1>
             <nav>
                 <ul class="header--signedout">
-                    <li><a href="sign-up.html">Sign Up</a></li>
-                    <li><a href="sign-in.html">Sign In</a></li>
+                    <li>Sign Up</a></li>
+                    <li>Sign In</a></li>
                 </ul>
             </nav>
         </div>
@@ -19,13 +19,14 @@ async function attachLoginPage(){
         <div class="form--centered">
             <h2>Sign In</h2>
             
-            <form>
+            <section>
                 <label for="emailAddress">Email Address</label>
                 <input class ="emailAdress" id="emailAddress" name="emailAddress" type="email" value="">
                 <label  for="password">Password</label>
                 <input id="password" class="password" name="password" type="password" value="">
-                <button class="button">Sign In </button><button class="button button-secondary">Cancel</button>
-            </form>
+                <button class="button">Sign In </button>
+                <button class="button button-secondary">Cancel</button>
+            </section>
             <p>Don't have a user account? Click here to <a href="sign-up.html">sign up</a>!</p>
             
         </div>
@@ -60,29 +61,57 @@ async function attachLoginPage(){
         }
 
         if(erors.length>0){
-            let errorContainer=document.querySelector(".")
+            let errorRoot=document.querySelector("#root")
         }
 
         //fara await rularea merge mai departe si nu primesc id ul studentului pe care vreau sa atasez la input
         //daca scriu await atuncia pagina face un reload.
-        let loggedIn = await getLoggedInUser(student);
+        try {
+            let loggedIn =await validateLogin(student.emailAddress,student.password);
 
-        if (loggedIn!=null){
-            attachStartPage(loggedIn.id);
-        }
+            attachStartPage();
+
+            console.log(loggedIn);
+           } catch (error) {
+           
+
+            attachErrorPage();
+
+           }
     })    
 };
 
-async function getLoggedInUser(student){
-    let loggedIn =await validateLogin(student.emailAddress,student.password);
-    return loggedIn;
+
+
+async function attachErrorPage(){
+    let root=document.querySelector('#root');
+
+    root.innerHTML=`
+    <header>
+            <div class="wrap header--flex">
+                <h1 class="header--logo"><a href="index.html">Students</a></h1>
+                <nav>
+                    <ul class="header--signedin">
+                        <li>Error message!</li>
+                    
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div class="wrap">
+                <h2>Error</h2>
+                <p>Sorry! Username or password incorrect</p>
+            </div>
+        </main>
+    `
 }
 
 async function attachStartPage(studentId){
 
-    let container=document.querySelector(".container");
+    let root=document.querySelector("#root");
 
-    container.innerHTML=`
+    root.innerHTML=`
     <div id="root">
     <header>
         <input name="studentId" class="studentId" type="hidden" value="${studentId}"/>
@@ -139,21 +168,21 @@ async function attachStartPage(studentId){
 
 async function attachBookPage(studentId){
 
-    let container=document.querySelector(".container");
-    container.innerHTML=`
+    let root=document.querySelector("#root");
+    root.innerHTML=`
     <input name="studentId" class="studentId" type="hidden" value="${studentId}"/>
 
 	<table>
     
 		<thead >
-			<tr class="container-sort">
+			<tr class="root-sort">
             <th class="id">Id</th>
             <th class="culoare">Title</th>
 			<th class="marca">CreatedAt</th>
 			</tr>
 		</thead>
 
-		<tbody class="container-book">
+		<tbody class="root-book">
 		
 		</tbody>
 	</table>
@@ -201,9 +230,9 @@ function verifyUser(){
 
 //attatch rows
 function attachRows(arr) {
-    let container = document.querySelector(".container-books");
+    let root = document.querySelector(".root-books");
   
-    container.innerHTML="";
+    root.innerHTML="";
     for (let i = 0; i < arr.length; i++) {
       container.appendChild(createRow(arr[i]));
     }

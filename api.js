@@ -24,10 +24,19 @@ async function validateLogin(e, pwd){
     }
     let data= await api("login",'POST',loginDTO);
 
-    data = await data.json();
 
-    return data;
+    if(data.status==200){
+
+        return data;
+    }else{
+
+        throw new Error("forbidden");
+    }
+
+    
 }
+
+
 
 async function getAllBooks(){
     let data = await api("studentsBook/{id}",'GET');
