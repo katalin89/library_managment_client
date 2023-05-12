@@ -27,7 +27,7 @@ async function attachLoginPage(){
                 <button class="button">Sign In </button>
                 <button class="button button-secondary">Cancel</button>
             </section>
-            <p>Don't have a user account? Click here to <a href="sign-up.html">sign up</a>!</p>
+            <p>Don't have a user account? Click here to >sign up</a>!</p>
             
         </div>
     </main>
@@ -68,10 +68,7 @@ async function attachLoginPage(){
         //daca scriu await atuncia pagina face un reload.
         try {
             let loggedIn =await validateLogin(student.emailAddress,student.password);
-
-           // attachStartPage(loggedIn.id);
-
-           attachStartPage(9);
+           attachStartPage(loggedIn.id);
 
             console.log(loggedIn);
            } catch (error) {
@@ -108,7 +105,7 @@ async function attachErrorPage(){
         </main>
     `
 }
-
+//////------
 async function attachStartPage(studentId){
 
     let root=document.querySelector("#root");
@@ -129,115 +126,40 @@ async function attachStartPage(studentId){
         </div>
     </header>
     <main>
-        <div class="wrap main--grid">
-            <a class="book--module book--link" href="book-detail.html">
-                <h2 class="book--label">Book</h2>
-                <h3 class="book--title">Choose Category</h3>
-            </a>
-            <a class="book--module book--link" >
-                <h2 class="book--label">Book</h2>
-                <h3 class="book--title">The best books</h3>
-            </a>
-            <a class="book--module book--link">
-                <h2 class="book--label">Book</h2>
-                <h3 class="book--title">The latest books</h3>
-            </a>
-            <a class="book--module book--add--module" >
-                <span class="book--add--title">
-                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                    viewBox="0 0 13 13" class="add"><polygon points="7,6 7,0 6,0 6,6 0,6 0,7 6,7 6,13 7,13 7,7 13,7 13,6 "></polygon></svg>
-                    New Book 
-                </span>
-            </a>
+        <div class="wrap main--grid root-books">
+         
+
         </div>
     </main>
 
     
 </div>
-    `
 
-    let btnNewBook=document.querySelector(".book--add--title");
-
-    btnNewBook.addEventListener("click",(e)=>{
-        let input=document.querySelector(".studentId");
-        let studentId=input.value;        
-        attachBookPage(studentId);
-    })
-
-    
-    
-}
-
-async function attachBookPage(studentId){
-
-    let root=document.querySelector("#root");
-    root.innerHTML=`
-    <input name="studentId" class="studentId" type="hidden" value="${studentId}"/>
-
-	<table>
-    
-		<thead >
-			<tr class="root-sort">
-            <th class="bookId">Id</th>
-            <th class="bookName">Title</th>
-			<th class="createdAt">CreatedAt</th>
-			</tr>
-		</thead>
-
-		<tbody class="root-books">
-		
-		</tbody>
-	</table>
-    
 
     `
 
-    let data = await getAllBooks(studentId);
+    let data=await allStudentsBooks(studentId);
     attachRows(data);
+    // let rowsContainer=document.querySelector(".wrap main--grid");
+
+    // rowsContainer.addEventListener("click",(e)=>{
+    //     e.preventDefault();
+    //     let bookProperties=data.children;
+
+    //     const book={
+    //         bookId:bookProperties[0].innerHTML,
+    //         bookName:bookProperties[1].innerHTML,
+    //         createdAt:bookProperties[2].innerHTML
+    //     };
+
+    //     attachRows(book);
+    // });
 
 
-    btnDelete=document.querySelector(".delete");
-
-    btnDelete.addEventListener("click",async() =>{
-        let inputS=document.querySelector(".studentId");
-
-        let studentId=inputS.value; 
-
-        let input=document.querySelector(".bookId");
-
-        let bookId=input.value;
-
-        let data=await deleteBook(bookId);
-
-        attachBookPage(studentId);
-    });
-
-    let btnCancel=document.querySelector(".cancel");
-    btnCancel.addEventListener("click",()=>{
-        attachStartPage();
-    })
-
-    let rowsContainer = document.querySelector(".root-books");
-    rowsContainer.addEventListener("click",async (e) =>{ onBookClick(e)});
-
+    
+    
 }
 
-function onBookClick(e){
-    e.preventDefault();
-    let data = e.target.parentNode;
-
-    let bookProperties = data.children;
-
-
-    const book = {
-      bookId: bookProperties[0].innerHTML,
-      bookName: bookProperties[1].innerHTML,
-      createdAt: bookProperties[2].innerHTML,
-
-    };
-
-    attachUpdatePage(book);
-}
 
 async function attachUpdatePage(book) {
     let root = document.querySelector(".root-books");
@@ -306,9 +228,11 @@ function createRow(book) {
     let tr = document.createElement("tr");
   
     tr.innerHTML = `
-                  <td>${book.id}</td>
-                  <th>${book.bookName}</th>
-                  <td>${book.createdAt}</td>
-   ` ;
+
+            <div class="course--module course--link"> 
+                  <h1 class="book--add--module ">${book.id}</h1>
+                  <h1  class="book--add--module ">${book.bookName}</h1>
+                  <h1  class="book--add--module">${book.createdAt}</h1>
+            </div>` ;
     return tr;
   }
