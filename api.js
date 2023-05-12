@@ -27,7 +27,7 @@ async function validateLogin(e, pwd){
 
     if(data.status==200){
 
-        return data;
+        return data.json();
     }else{
 
         throw new Error("forbidden");
@@ -38,8 +38,8 @@ async function validateLogin(e, pwd){
 
 
 
-async function getAllBooks(id){
-    let data = await api(`studentsBook/${id}`,'GET');
+async function allStudentsBooks(id){
+    let data = await api(`allStudentsBooks/${id}`,'GET');
 
 
     data= await data.json();
