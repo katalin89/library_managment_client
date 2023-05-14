@@ -61,37 +61,37 @@ header nav a:hover {
     display: inline-block;
     margin-left: .5rem;
 }
-.book--module {
+.course--module {
     background: #7c689b;
     border-radius: .5rem;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     display: block;
 }
-.book--label {
+.course--label {
     color: #fff;
     font-size: .9rem;
     font-weight: 400;
     margin-bottom: .25rem;
 }
-.book--title {
+.course--title {
     color: #fff;
     font-weight: 700;
     font-size: 1.25rem;
 }
-.book--add--module {
+.course--add--module {
     background: #ddd9e4;
     color: #57496e;
     font-weight: 300;
     font-size: 1.25rem;
 }
-.book--add--title .add {
+.course--add--title .add {
     width: 20px;
     height: auto;
     margin-right: 5px;
     fill: #57496e;
 }
-.book--detail--title {
+.course--detail--title {
     padding-bottom: .25rem;
     border-bottom: 1px solid #888;
     margin: 3rem 0 .5rem;
@@ -100,13 +100,13 @@ header nav a:hover {
     text-transform: uppercase;
     letter-spacing: 2px;
 }
-.book--name {
+.course--name {
     font-size: 2rem;
     margin-bottom: .5rem;
     font-weight: 700;
     color: #47395e;
 }
-.book--detail--list {
+.course--detail--list {
     font-weight: 300;
     margin: 0 0 1.5rem 1rem;
     line-height: 1.5;
@@ -231,7 +231,7 @@ input:focus, button:focus, .button:focus, textarea:focus {
         margin-left: 8%;
         flex-basis: 30%;
     }
-    .book--detail--title {
+    .course--detail--title {
         margin: 1.5rem 0 .5rem;
     }
     .button {
@@ -239,39 +239,3 @@ input:focus, button:focus, .button:focus, textarea:focus {
         display: inline-block;
     }
 }
-
-
-tr {
-    min-height: 50px;
-  }
-  
-  tr:nth-child(2n) {
-    background:#7c689b;
-  }
-  
-  td {
-    padding: 5px 20px 5px 10px;
-  }
-
-/* .buttons{
-    display: flex;
-    flex-direction: row;
-}
-
-.buttonStart{
-    background: #7c689b;
-    color: #fff;
-    font-size: 1rem;
-    padding: .75rem 1.5rem;
-    border: 0;
-    margin: 20px;
-    display: block;
-    width: 210px;
-    height: 140px;
-    text-align: center;
-    border-radius: .5rem;
-    font-weight: bold;
-    transition: background 0.2s;
-
-
-} */
