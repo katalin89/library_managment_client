@@ -3,7 +3,7 @@ async function attachLoginPage(){
     let root=document.querySelector("#root");
 
     root.innerHTML=`
-    <div id="root">
+   
     <header>
         <div class="wrap header--flex">
             <h1 class="header--logo">Student</a></h1>
@@ -31,7 +31,6 @@ async function attachLoginPage(){
             
         </div>
     </main>
-</div>
     
     `
   
@@ -88,7 +87,7 @@ async function attachErrorPage(){
     root.innerHTML=`
     <header>
             <div class="wrap header--flex">
-                <h1 class="header--logo"><a href="index.html">Students</a></h1>
+                <h1 class="header--logo"><a ">Students</a></h1>
                 <nav>
                     <ul class="header--signedin">
                         <li>Error message!</li>
@@ -116,11 +115,11 @@ async function attachStartPage(studentId){
         <input name="studentId" class="studentId" type="hidden" value="${studentId}"/>
 
         <div class="wrap header--flex">
-            <h1 class="header--logo"><a href="index.html">Books</a></h1>
+            <h1 class="header--logo"><a">Books</a></h1>
             <nav>
                 <ul class="header--signedout">
-                    <li><a href="sign-up.html">Sign Up</a></li>
-                    <li><a href="sign-in.html">Sign In </a></li>
+                    <li><a ">Sign Up</a></li>
+                    <li><a ">Sign In </a></li>
                 </ul>
             </nav>
         </div>
@@ -128,9 +127,10 @@ async function attachStartPage(studentId){
     <main>
         <div class="wrap main--grid root-books">
          
-
         </div>
     </main>
+
+ 
 
     
 </div>
@@ -139,7 +139,7 @@ async function attachStartPage(studentId){
     `
 
     let data=await allStudentsBooks(studentId);
-    attachRows(data);
+    attachCard(data);
     // let rowsContainer=document.querySelector(".wrap main--grid");
 
     // rowsContainer.addEventListener("click",(e)=>{
@@ -155,12 +155,33 @@ async function attachStartPage(studentId){
     //     attachRows(book);
     // });
 
+    let btnDelete=document.querySelector(".delete");
+
+    btnDelete.addEventListener("click",async()=>{
+        let bookId=document.querySelector(".bookId");
+
+         bookId=input.value;
+
+         await deleteBook(bookId);
+
+         attachStartPage()
+    })
+
 
     
     
 }
 
-
+/*  let btnDelete = document.querySelector(".delete");
+    btnDelete.addEventListener("click", async () => {
+      let input = document.querySelector(".bookId");
+  
+      let bookId = input.value;
+  
+      await deleteBook(bookId);
+  
+      attachHomePage();
+    });*/
 async function attachUpdatePage(book) {
     let root = document.querySelector(".root-books");
   
@@ -214,25 +235,34 @@ function verifyUser(){
 }
 
 //attatch rows
-function attachRows(arr) {
+function attachCard(arr) {
     let root = document.querySelector(".root-books");
   
     root.innerHTML="";
     for (let i = 0; i < arr.length; i++) {
-      root.appendChild(createRow(arr[i]));
+      root.appendChild(createCard(arr[i]));
     }
   }
 
   //create row
-function createRow(book) {
-    let tr = document.createElement("tr");
-  
-    tr.innerHTML = `
+function createCard(book) {
+    let a = document.createElement("a");
 
-            <div class="course--module course--link"> 
-                  <h1 class="book--add--module ">${book.id}</h1>
-                  <h1  class="book--add--module ">${book.bookName}</h1>
-                  <h1  class="book--add--module">${book.createdAt}</h1>
-            </div>` ;
-    return tr;
+    a.classList.add("course--module");
+    a.classList.add("course--link")
+
+
+  
+    a.innerHTML = `
+
+        
+    <h2 class="course--label">${book.bookName}</h2>
+    <h3 class="course--title">${book.createdAt}</h3>
+    <button class="delete">Delete</button>
+    <button class=" update">Update</update>
+
+    
+        `
+                  
+    return a ;
   }
