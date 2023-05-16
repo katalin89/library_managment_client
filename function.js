@@ -111,8 +111,12 @@ async function attachStartPage(studentId){
 
     root.innerHTML=`
     <div id="root">
+
+   
     <header>
         <input name="studentId" class="studentId" type="hidden" value="${studentId}"/>
+      
+
 
         <div class="wrap header--flex">
             <h1 class="header--logo"><a">Books</a></h1>
@@ -124,6 +128,8 @@ async function attachStartPage(studentId){
             </nav>
         </div>
     </header>
+
+    <p><a class="button new-book">Add New Book</a></p>
     <main>
         <div class="wrap main--grid root-books">
          
@@ -158,7 +164,8 @@ async function attachStartPage(studentId){
     let btnDelete=document.querySelector(".delete");
 
     btnDelete.addEventListener("click",async()=>{
-        let bookId=document.querySelector(".bookId");
+        let input=document.querySelector(".bookId");
+        console.log(input);
 
          bookId=input.value;
 
@@ -167,21 +174,63 @@ async function attachStartPage(studentId){
          attachStartPage()
     })
 
+    let btnAddNewBook=document.querySelector(".new-book");
 
-    
+    btnAddNewBook.addEventListener("click",(e)=>{
+        attachNewBookPage();
+    });
+
+ 
     
 }
 
-/*  let btnDelete = document.querySelector(".delete");
-    btnDelete.addEventListener("click", async () => {
-      let input = document.querySelector(".bookId");
-  
-      let bookId = input.value;
-  
-      await deleteBook(bookId);
-  
-      attachHomePage();
-    });*/
+function attachNewBookPage(){
+    let root=document.querySelector("#root");
+
+    root.innerHTML=`
+    <header>
+    <div class="wrap header--flex">
+        <h1 class="header--logo">Books</h1>
+        <nav>
+            <ul class="header--signedin">
+                <li>Welcome, Joe Smith!</li>
+                <li>Sign Out</li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main>
+    <div class="wrap">
+        <h2>Create Book</h2>
+        <div class="validation--errors">
+            <h3>Validation Errors</h3>
+            <ul>
+                <li>Please provide a value for "Title"</li>
+                <li>Please provide a value for "Created At"</li>
+            </ul>
+        </div>
+        <form>
+            <div class="main--flex">
+                <div>
+                    <label for="BookName">Book Name</label>
+                    <input id="bookName" name="bookName" type="text" value="">
+
+                    <p>By Joe Smith</p>
+
+                    <label for="createdAt">Created At</label>
+                    <textarea id="createdAt" name="createdAt"></textarea>
+                </div>
+               
+            </div>
+            <button class="button" type="submit">Create Book</button><button class="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
+        </form>
+    </div>
+</main>
+    `
+
+}
+
+
 async function attachUpdatePage(book) {
     let root = document.querySelector(".root-books");
   
