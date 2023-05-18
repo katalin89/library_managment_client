@@ -1,5 +1,5 @@
 function api(path,method,body=null){
-    const url="http://localhost:8080/api/v1/students/"+path;
+    const url="http://localhost:8080/api/v1/"+path;
 
     const options={
         method,
@@ -22,7 +22,7 @@ async function validateLogin(e, pwd){
         email : e,
         password :pwd 
     }
-    let data= await api("login",'POST',loginDTO);
+    let data= await api("students/login",'POST',loginDTO);
 
 
     if(data.status==200){
@@ -39,19 +39,20 @@ async function validateLogin(e, pwd){
 
 
 async function allStudentsBooks(id){
-    let data = await api(`allStudentsBooks/${id}`,'GET');
-
+    let data = await api(`students/allStudentsBooks/${id}`,'GET');
 
     data= await data.json();
 
     return data;
 }
 
-async function deleteBook(bookId){
-    let data=await api(`delete/${bookId}`,'DELETE');
 
+async function deleteBookById(bookId){
+    let data=await api(`students/deleteByBookName/${bookId}`,'DELETE');
 }
 
-async function deleteByBookName(){
-    let data=await api(`deleteByBookName/${bookId}/${bookName}`,'DELETE');
+async function updateBookApi(book){
+    let data=await api(`book/updateBook`,'PUT',book);
+
+    return data;
 }

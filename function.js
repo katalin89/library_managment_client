@@ -104,20 +104,17 @@ async function attachErrorPage(){
         </main>
     `
 }
-//////------
+
 async function attachStartPage(studentId){
 
     let root=document.querySelector("#root");
 
     root.innerHTML=`
-    <div id="root">
-
-   
+    <div id="root">   
     <header>
         <input name="studentId" class="studentId" type="hidden" value="${studentId}"/>
-      
-
-
+        <ul class="error">
+        </ul>
         <div class="wrap header--flex">
             <h1 class="header--logo"><a">Books</a></h1>
             <nav>
@@ -129,60 +126,42 @@ async function attachStartPage(studentId){
         </div>
     </header>
 
-    <p><a class="button new-book">Add New Book</a></p>
+    <button class="button new-book">Add New Book</button>
     <main>
         <div class="wrap main--grid root-books">
          
         </div>
     </main>
-
- 
-
-    
 </div>
-
-
     `
 
     let data=await allStudentsBooks(studentId);
     attachCard(data);
-    // let rowsContainer=document.querySelector(".wrap main--grid");
 
-    // rowsContainer.addEventListener("click",(e)=>{
-    //     e.preventDefault();
-    //     let bookProperties=data.children;
-
-    //     const book={
-    //         bookId:bookProperties[0].innerHTML,
-    //         bookName:bookProperties[1].innerHTML,
-    //         createdAt:bookProperties[2].innerHTML
-    //     };
-
-    //     attachRows(book);
-    // });
-
-    let btnDelete=document.querySelector(".delete");
-
-    btnDelete.addEventListener("click",async()=>{
-        let input=document.querySelector(".bookId");
-        console.log(input);
-
-         bookId=input.value;
-
-         await deleteBook(bookId);
-
-         attachStartPage()
-    })
-
+    
     let btnAddNewBook=document.querySelector(".new-book");
 
     btnAddNewBook.addEventListener("click",(e)=>{
         attachNewBookPage();
     });
 
- 
-    
+    let rowsContainer=document.querySelector("#root");
+    rowsContainer.addEventListener(".click",(e)=>{
+        e.preventDefault();
+        let data=e.target.parentNode;
+
+        let bookProperties=data.children;
+
+        const book={
+            bookId:bookProperties[0].innerHTML,
+            bookName:bookProperties[1].innerHTML,
+            createdAt:bookProperties[2].innerHTML,
+        }
+
+        attachUpdatePage(book);
+    });
 }
+
 
 function attachNewBookPage(){
     let root=document.querySelector("#root");
@@ -227,57 +206,89 @@ function attachNewBookPage(){
     </div>
 </main>
     `
-
 }
 
 
-async function attachUpdatePage(book) {
+async function attachUpdatePage(book,studentId) {
     let root = document.querySelector(".root-books");
   
     //input type=hidden nu este visibil pe pagina, dar se poate citi valoarea lui.
     root.innerHTML = ` <h1>Update book</h1> 
-          <input name="bookId" class="bookId" type="hidden" value="${book.bookId}"/>        
+        <input name="studentId" class="studentId" type="hidden" value="${studentId}"/>
+
+          <input name="bookId" class="bookId" type="hidden" value="${book.id}"/>        
           <ul class="error">
               
           </ul>
   
           <p>
-              <label for="bookName">Book Name</label>
-              <input name="bookName" type="text" class="bookName" id="bookName" value="${book.bookName}"  >
+              <label for="bookNameInp">Book Name</label>
+              <input name="bookNameInp" type="text" class="bookName" id="bookName" value="${book.bookName}"  >
           </p>
           <p>
-              <label for="createdAt">Created Agt</label>
-              <input name="createdAt" type="text" class="createdAt" id="createdAt" value="${book.createdAt}">
+              <label for="createdAtInp">Created Agt</label>
+              <input name="createdAtInp" type="text" class="createdAt" id="createdAt" value="${book.createdAt}">
           </p>
           <div>
               <button class="update">Update book</button>
-              <button class="delete" >Delete book</button>
               <button class="cancel">Cancel</button>
           </div>
     `;
   
     let btnCancel = document.querySelector(".cancel");
     btnCancel.addEventListener("click", () => {
-      attachHomePage();
+      attachStartPage(studentId);
     });
   
-    let btnDelete = document.querySelector(".delete");
-    btnDelete.addEventListener("click", async () => {
-      let input = document.querySelector(".bookId");
-  
-      let bookId = input.value;
-  
-      await deleteBook(bookId);
-  
-      attachHomePage();
-    });
-  }
-  
+    let btnUpdate= document.querySelector(".update");
+    btnUpdate.addEventListener("click",async()=>{
+        let inp0=document.querySelector(".bookId");
+          let inp1=document.querySelector(".bookName");
+          let inp2=document.querySelector(".createdAt");
+          let studentId = document.querySelector(".studentId").value;
 
+ 
+          let book={
+            id: inp0.value,
+              bookName:inp1.value,
+              createdAt:inp2.value,
+              studentId: studentId
+          }
+ 
+          let erors=[];
+ 
+          if(inp1.value==""){
+              erors.push("You must complete de bookName field");
+              inp1.style.borderColor="red";
+ 
+          }
+ 
+          if(inp2.value==""){
+              erors.push("You must complete the createdAt field")
+              inp2.style.borderColor=="red";
+          }
+ 
+          if(erors.length>0){
+              let erorContainer=document.querySelector(".error");
+              let h1=document.createElement("h1");
+              h1.textContent="Ooops";
+ 
+              for(let i=0;i<erors.length;i++){
+                  let li=document.createElement("li");
+                  li.textContent=erors[i]; 
+                  erorContainer.innerHTML="";
+              }
+          }
+
+          if(erors.length==0){
+            let data=await updateBookApi(book); 
+            attachStartPage(studentId);
+        }
+     });
+}
 
 
 //functie care ia ca parametru userul si password
-
 function verifyUser(){
     let email=document.querySelector(".emailAdress");
      let password=document.querySelector(".password");
@@ -291,7 +302,30 @@ function attachCard(arr) {
     for (let i = 0; i < arr.length; i++) {
       root.appendChild(createCard(arr[i]));
     }
-  }
+}
+
+async function deleteBook(e)
+{
+        let parent = e.parentNode;
+        let bookId = parent.children[0].value;
+        console.log(bookId);
+        await deleteBookById(bookId);
+        let studentId = document.querySelector(".studentId").value;
+        attachStartPage(studentId)
+}
+
+async function updateBook(e)
+{
+    let parent = e.parentNode;
+    let book = {
+        id : parent.children[0].value,
+        bookName : parent.children[1].textContent,
+        createdAt: parent.children[2].textContent
+    }
+    let studentId = document.querySelector(".studentId").value;
+    attachUpdatePage(book,studentId);
+}
+
 
   //create row
 function createCard(book) {
@@ -299,19 +333,13 @@ function createCard(book) {
 
     a.classList.add("course--module");
     a.classList.add("course--link")
-
-
   
     a.innerHTML = `
-
-        
+    <input name="bookId" class="bookId" type="hidden" value="${book.id}"/>        
     <h2 class="course--label">${book.bookName}</h2>
     <h3 class="course--title">${book.createdAt}</h3>
-    <button class="delete">Delete</button>
-    <button class=" update">Update</update>
-
-    
-        `
-                  
+    <button class="delete" onclick="deleteBook(this)">Delete</button>
+    <button class="update" onclick="updateBook(this)">Update</update>
+    `                  
     return a ;
   }
