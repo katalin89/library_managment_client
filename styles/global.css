@@ -172,7 +172,7 @@ textarea {
     font-size: 1rem;
     padding: .75rem 1.5rem;
     border: 0;
-    margin: 0 0 .5rem 0;
+    margin: .5rem 0 .5rem 0;
     display: block;
     width: 210px;
     text-align: center;
@@ -204,6 +204,11 @@ input:focus, button:focus, .button:focus, textarea:focus {
     outline: 2px solid #332a40;
 }
 
+button.new-book{
+    margin-left: 20px;
+    margin-bottom: 20px;
+   }
+
 @media screen and (min-width: 600px) {
     .header--signedin li {
         display: inline-block;
@@ -216,6 +221,11 @@ input:focus, button:focus, .button:focus, textarea:focus {
         column-gap: 1.5rem;
         grid-auto-rows: 1fr;
     }
+
+    button.new-book{
+        margin-left: 20px;
+        margin-bottom: 20px;
+       }
 }
 @media screen and (min-width: 800px) {
     .main--grid {
@@ -235,7 +245,12 @@ input:focus, button:focus, .button:focus, textarea:focus {
         margin: 1.5rem 0 .5rem;
     }
     .button {
-        margin: 0 .5rem 0 0;
+        margin: .5rem .5rem 0 0;
         display: inline-block;
     }
+
+   button.new-book{
+    margin-left: 20px;
+    margin-bottom: 20px;
+   }
 }
