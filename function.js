@@ -108,7 +108,7 @@ async function attachStartPage(studentId) {
   root.innerHTML = `
     <div id="root">   
     <header>
-        <input name="studentId" class="studentId" type="hidden" value="${studentId}"/>
+        <input id="studentId" name="studentId" class="studentId" type="hidden" value="${studentId}"/>
         <ul class="error">
         </ul>
         <div class="wrap header--flex">
@@ -140,7 +140,7 @@ async function attachStartPage(studentId) {
   let btnAddNewBook = document.querySelector(".new-book");
 
   btnAddNewBook.addEventListener("click", (e) => {
-    attachNewBookPage();
+    attachNewBookPage(studentId);
   });
 
   let rowsContainer = document.querySelector("#root");
@@ -164,47 +164,104 @@ async function attachNewBookPage(studentId) {
   let root = document.querySelector("#root");
 
   root.innerHTML = `
-    <header>
-    <div class="wrap header--flex">
-        <h1 class="header--logo books">Books</h1>
-        <nav>
-            <ul class="header--signedin">
-              
-                <li>Sign Out</li>
-            </ul>
-        </nav>
-    </div>
+  <header>
+  <input id="studentId" name="studentId" class="studentId" type="hidden" value="${studentId}"/>
+  <div class="wrap header--flex">
+      <h1 class="header--logo books">Books</h1>
+      <nav>
+          <ul class="header--signedin">
+            
+              <li>Sign Out</li>
+          </ul>
+      </nav>
+  </div>
 </header>
 <main>
-    <div class="wrap">
-        <h2>Create Book</h2>
-        
-        <form>
-            <div class="main--flex">
-                <div>
-                    <label for="BookName">Book Name</label>
-                    <input id="bookName" name="bookName" type="text" value="">
-
-                 
-
-                    <label for="createdAt">Created At</label>
-                    <input id="createdAt" name="createdAt" type="text" value="">
-                </div>
-               
-            </div>
-            <button class="button" type="submit">Create Book</button><button class="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
-        </form>
-    </div>
+  <div class="wrap">
+      <h2>Create Book</h2>
+      
+      <ul class="error">
+            
+      </ul>
+          <div class="main--flex">
+              <div>
+                  <label for="BookName">Book Name</label>
+                  <input id="bookName" name="bookName"  type="text" value="">
+                  <label for="createdAt">Created At</label>
+                  <input id="createdAt" name="createdAt" type="text" value="">
+              </div>
+             
+          </div>
+          <button id="add" class="button add" type="submit">Create Book</button><button class="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
+  </div>
 </main>
-    `;
+  `;
 
     let btnBooks=document.querySelector(".books");
     btnBooks.addEventListener("click",(e)=>{
         attachCard(data);
-    })
+    });
 
-  let data = await allStudentsBooks(studentId);
-  attachCard(data);
+    let btnAddNewBook=document.querySelector("#add");
+
+    btnAddNewBook.addEventListener("click",async()=>{
+      let inp1=document.querySelector("#bookName");
+      let inp2=document.querySelector("#createdAt");
+      let inp3=document.querySelector("#studentId");
+
+
+      let book={
+        bookName:inp1.value,
+        createdAt:inp2.value,
+        studentId:inp3.value
+      };
+
+      let erors=[];
+      if(inp1.value==""&&
+        inp2.value==""
+      ){
+        erors.push("Fields are not completed");
+      }
+      if(inp1.value==""){
+        erors.push("You must complete Book Name");
+
+        inp1.style.border="red";
+      }
+
+      if(inp2.value==""){
+        erors.push("You must coplete Created At field");
+        inp2.style.borderColor="red";
+      }
+
+      if(erors.length>0){
+        let erorContainer=document.querySelector(".error");
+
+        erorContainer.innerHTML="";
+
+        let h1=document.createElement("h1");
+
+        h1.textContent ="Ooops";
+
+      
+
+        erorContainer.appendChild(h1);
+
+        for(let i=0;i<erors.length;i++){
+          let li=document.createElement("li");
+          li.textContent=erors[i];
+
+          erorContainer.appendChild(li);
+        }
+      }else{
+        let data=await addBook(book);
+        attachStartPage(studentId);
+      }
+
+    });
+
+
+  // let data = await allStudentsBooks(studentId);
+  // attachCard(data);
 }
 
 
