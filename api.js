@@ -46,6 +46,13 @@ async function allStudentsBooks(id){
     return data;
 }
 
+async function addBook(book){
+
+    let data= await api("students/addBook",'POST',book);
+
+    return data;
+}
+
 
 async function deleteBookById(bookId){
     let data=await api(`students/deleteByBookName/${bookId}`,'DELETE');
