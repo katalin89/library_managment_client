@@ -5,10 +5,10 @@ async function attachLoginPage() {
    
     <header>
         <div class="wrap header--flex">
-            <h1 class="header--logo">Student</h1>
+            <h1 class="header--logo">Home</h1>
             <nav>
                 <ul class="header--signedout">
-                    <li>Sign Up</li>
+                    <li class="signUp">Sign Up</li>
                     <li>Sign In</li>
                 </ul>
             </nav>
@@ -23,8 +23,12 @@ async function attachLoginPage() {
                 <input class ="emailAdress" id="emailAddress" name="emailAddress" type="email" value="">
                 <label  for="password">Password</label>
                 <input id="password" class="password" name="password" type="password" value="">
+
+               
                 <button class="button">Sign In </button>
                 <button class="button button-secondary">Cancel</button>
+
+               
             </section>
            
             
@@ -32,6 +36,7 @@ async function attachLoginPage() {
     </main>
     
     `;
+    // <button class="button register">Register</button>
 
   // <p>Don't have a user account? Click here to sign up</p>
 
@@ -76,15 +81,23 @@ async function attachLoginPage() {
       attachErrorPage();
     }
   });
-}
 
+  let btnSignUp=document.querySelector(".signUp");
+  btnSignUp.addEventListener("click",(e)=>{
+    attachSignUp();
+  })
+}
+ /* let btnSignOut=document.querySelector(".signOut");
+  btnSignOut.addEventListener("click",(e)=>{
+    attachLoginPage();
+  });*/
 async function attachErrorPage() {
   let root = document.querySelector("#root");
 
   root.innerHTML = `
     <header>
             <div class="wrap header--flex">
-                <h1 class="header--logo"><a ">Students</a></h1>
+                <h1 class="header--logo">Home</h1>
                 <nav>
                     <ul class="header--signedin">
                         <li>Error message!</li>
@@ -106,29 +119,33 @@ async function attachStartPage(studentId) {
   let root = document.querySelector("#root");
 
   root.innerHTML = `
-    <div id="root">   
+   
     <header>
         <input id="studentId" name="studentId" class="studentId" type="hidden" value="${studentId}"/>
         <ul class="error">
         </ul>
         <div class="wrap header--flex">
-            <h1 class="header--logo books">Books</h1>
+            <h1 class="header--logo books">Home</h1>
             <nav>
-               <h1>Welcome</h1>
+               <h1 class="signOut">Sign Out</h1>
             </nav>
         </div>
     </header>
 
-   
+    <button class="button new-book">Add New Book</button>
     <main>
-        <button class="button new-book">Add New Book</button>
+        
         <div class="wrap main--grid root-books">
          
         </div>
     </main>
-</div>
     `;
 
+    let btnSignOut=document.querySelector(".signOut");
+    btnSignOut.addEventListener("click",(e)=>{
+      attachLoginPage();
+    })
+    
     let btnBooks=document.querySelector(".books");
     btnBooks.addEventListener("click",(e)=>{
         attachCard(data);
@@ -167,11 +184,11 @@ async function attachNewBookPage(studentId) {
   <header>
   <input id="studentId" name="studentId" class="studentId" type="hidden" value="${studentId}"/>
   <div class="wrap header--flex">
-      <h1 class="header--logo books">Books</h1>
+      <h1 class="header--logo books">Home</h1>
       <nav>
           <ul class="header--signedin">
             
-              <li>Sign Out</li>
+              <li class="signOut">Sign Out</li>
           </ul>
       </nav>
   </div>
@@ -197,10 +214,17 @@ async function attachNewBookPage(studentId) {
 </main>
   `;
 
-    let btnBooks=document.querySelector(".books");
-    btnBooks.addEventListener("click",(e)=>{
-        attachCard(data);
-    });
+  let btnBooks=document.querySelector(".books");
+  btnBooks.addEventListener("click",(e)=>{
+      attachStartPage(studentId);
+  });
+
+  let btnSignOut=document.querySelector(".signOut");
+  btnSignOut.addEventListener("click",(e)=>{
+    attachLoginPage();
+  });
+
+  
 
     let btnAddNewBook=document.querySelector("#add");
 
@@ -267,12 +291,12 @@ async function attachNewBookPage(studentId) {
 
 async function attachUpdatePage(book, studentId) {
   console.log(book);
-  let root = document.querySelector(".root-books");
+  let root = document.querySelector("#root");
 
   //input type=hidden nu este visibil pe pagina, dar se poate citi valoarea lui.
   root.innerHTML = `
 
-    <div id="root">
+  
     <header>
         <div class="wrap header--flex">
             <h1 class="header--logo">Update Book</h1>
@@ -292,21 +316,20 @@ async function attachUpdatePage(book, studentId) {
                      
 
                         <label for="createdAtInp">CreatedAt</label>
-                        <input type="date" id="createdAtInp" name="createdAt" value="" class="createdAt" placeholder=${book.createdAt}>
-                    </div>
+                        <input type="date" id="createdAt" name="createdAt" value="${book.createdAt}">
+                    
+                        </div>
                     
                 </div>
                 
                 <div>
-                    <button class=" update">Update book</button>
-                    <button class=" cancel">Cancel</button>
+                    <button class="  button update">Update book</button>
+                    <button class="  button cancel">Cancel</button>
                 </div>
                 
         
         </div>
-    </main>
-</div>
-    
+    </main>    
     
   
     `;
@@ -361,6 +384,51 @@ async function attachUpdatePage(book, studentId) {
       attachStartPage(studentId);
     }
   });
+}
+
+async function attachSignUp(){
+  let root=document.querySelector("#root");
+
+  root.innerHTML=`
+
+  <header>
+  <div class="wrap header--flex">
+      <h1 class="header--logo"><a href="index.html">Register</a></h1>
+      <nav>
+          <ul class="header--signedout">
+              <li><a href="sign-up.html">Sign Up</a></li>
+              <li><a href="sign-in.html">Sign In</a></li>
+          </ul>
+      </nav>
+  </div>
+</header>
+<main>
+  <div class="form--centered">
+      <h2>Sign Up</h2>
+      
+      <form>
+          <label for="firstName">First Name</label>
+          <input id="firstName" name="firstName" type="text" value="">
+          <label for="lastName">Last Name</label>
+          <input id="lastName" name="lastName" type="text" value="">
+          <label for="emailAddress">Email Address</label>
+          <input id="emailAddress" name="emailAddress" type="email" value="">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" value="">
+          <button class="button" type="submit class="button signUp">Sign Up</button><button class="button button-secondary" onclick="event.preventDefault();">Cancel</button>
+      </form>
+      <p>Already have a user account? Click here to sign in!</p>
+  </div>
+</main>
+  `
+
+  let btnSignUp=document.querySelector(".singnUp");
+  btnSignUp.addEventListener("click",(e)=>{
+    attachLoginPage();
+  })
+
+
+ 
 }
 
 //functie care ia ca parametru userul si password
@@ -427,3 +495,4 @@ function createCard(book) {
     `;
   return a;
 }
+
