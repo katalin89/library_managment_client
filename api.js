@@ -31,9 +31,19 @@ async function validateLogin(e, pwd){
     }else{
 
         throw new Error("forbidden");
-    }
+    }    
+}
 
-    
+async function signUp(studentDTO){
+    let data= await api("students/signup",'POST',studentDTO);
+
+    if(data.status==200){
+
+        return data.json();
+    }else{
+
+        throw new Error("forbidden");
+    }
 }
 
 

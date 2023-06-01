@@ -336,6 +336,8 @@ async function attachUpdatePage(book, studentId) {
 
   //courseTitle(inp for id)
 
+
+
   let btnCancel = document.querySelector(".cancel");
   btnCancel.addEventListener("click", () => {
     attachStartPage(studentId);
@@ -388,16 +390,20 @@ async function attachUpdatePage(book, studentId) {
 
 async function attachSignUp(){
   let root=document.querySelector("#root");
+//  <input id="studentId" name="studentId" class="studentId" type="hidden" value="${studentId}"/>
+
+
 
   root.innerHTML=`
 
   <header>
+
   <div class="wrap header--flex">
-      <h1 class="header--logo"><a href="index.html">Register</a></h1>
+      <h1 class="header--logo">Register</a></h1>
       <nav>
           <ul class="header--signedout">
-              <li><a href="sign-up.html">Sign Up</a></li>
-              <li><a href="sign-in.html">Sign In</a></li>
+              <li class="signUpInp">Sign Up</li>
+              <li>Sign In</li>
           </ul>
       </nav>
   </div>
@@ -411,24 +417,37 @@ async function attachSignUp(){
           <input id="firstName" name="firstName" type="text" value="">
           <label for="lastName">Last Name</label>
           <input id="lastName" name="lastName" type="text" value="">
-          <label for="emailAddress">Email Address</label>
+          <label for="emailAddress" class="emailAdress">Email Address</label>
           <input id="emailAddress" name="emailAddress" type="email" value="">
-          <label for="password">Password</label>
+          <label for="password" class="password">Password</label>
           <input id="password" name="password" type="password" value="">
-          <button class="button" type="submit class="button signUp">Sign Up</button><button class="button button-secondary" onclick="event.preventDefault();">Cancel</button>
+          <button class="button" type="submit class="button">Sign Up</button><button class="button button-secondary" onclick="event.preventDefault();">Cancel</button>
       </form>
       <p>Already have a user account? Click here to sign in!</p>
   </div>
 </main>
   `
 
-  let btnSignUp=document.querySelector(".singnUp");
-  btnSignUp.addEventListener("click",(e)=>{
-    attachLoginPage();
-  })
+   let btnSignUp=document.querySelector(".button");
 
+   btnSignUp.addEventListener("click",(e)=>{
 
- 
+    let inp1 = document.querySelector("#emailAddress");
+    let inp2 = document.querySelector("#password");
+    let inp3 = document.querySelector("#firstName");
+    let inp4 = document.querySelector("#lastName");
+  
+  
+    let studentDTO = {
+      firstName: inp3.value,
+      lastName: inp4.value,
+      email: inp1.value,
+      password: inp2.value,
+    };
+
+      let createdStudent = signUp(studentDTO);
+       attachStartPage(createdStudent.id);
+   });
 }
 
 //functie care ia ca parametru userul si password
