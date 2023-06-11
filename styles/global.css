@@ -209,7 +209,8 @@ button.new-book{
     margin-bottom: 20px;
    }
 
-@media screen and (min-width: 600px) {
+
+   
     .header--signedin li {
         display: inline-block;
         margin-left: .5rem;
