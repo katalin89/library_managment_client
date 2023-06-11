@@ -115,8 +115,35 @@ async function attachErrorPage() {
     `;
 }
 
+
+async function attachErrorPageUp() {
+  let root = document.querySelector("#root");
+
+  root.innerHTML = `
+    <header>
+            <div class="wrap header--flex">
+                <h1 class="header--logo">Home</h1>
+                <nav>
+                    <ul class="header--signedin">
+                        <li>Error message!</li>
+                    
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <main>
+            <div class="wrap">
+                <h2>Error</h2>
+                <p>Sorry! Existing person</p>
+            </div>
+        </main>
+    `;
+}
+
 async function attachStartPage(studentId) {
   let root = document.querySelector("#root");
+  
+
 
   root.innerHTML = `
    
@@ -160,11 +187,17 @@ async function attachStartPage(studentId) {
     attachNewBookPage(studentId);
   });
 
-  let rowsContainer = document.querySelector("#root");
-  rowsContainer.addEventListener(".click", (e) => {
+  let rowsContainer = document.querySelector(".root-books");
+ 
+  rowsContainer.addEventListener("click",async (e) => {
     e.preventDefault();
+    console.log("nu intra");
+    //----
+    // let data2=e.target;
+    // let books=await allStudentsBooks();
+    // attachCard(books);
+//----
     let data = e.target.parentNode;
-
     let bookProperties = data.children;
 
     const book = {
@@ -172,6 +205,8 @@ async function attachStartPage(studentId) {
       bookName: bookProperties[1].innerHTML,
       createdAt: bookProperties[2].innerHTML,
     };
+
+    
 
     attachUpdatePage(book);
   });
@@ -412,30 +447,35 @@ async function attachSignUp(){
   <div class="form--centered">
       <h2>Sign Up</h2>
       
-      <form>
+      
           <label for="firstName">First Name</label>
           <input id="firstName" name="firstName" type="text" value="">
           <label for="lastName">Last Name</label>
           <input id="lastName" name="lastName" type="text" value="">
           <label for="emailAddress" class="emailAdress">Email Address</label>
           <input id="emailAddress" name="emailAddress" type="email" value="">
+
+          <label for="age" class="age">Age</label>
+          <input id="age" name="age" type="age" value="">
           <label for="password" class="password">Password</label>
           <input id="password" name="password" type="password" value="">
-          <button class="button" type="submit class="button">Sign Up</button><button class="button button-secondary" onclick="event.preventDefault();">Cancel</button>
-      </form>
+          <button class="button signUp" type="submit id=signUp">Sign Up</button>
+          <button class="button button-secondary" onclick="event.preventDefault();">Cancel</button>
+      
       <p>Already have a user account? Click here to sign in!</p>
   </div>
 </main>
   `
 
-   let btnSignUp=document.querySelector(".button");
+   let btnSignUp=document.querySelector(".signUp");
 
-   btnSignUp.addEventListener("click",(e)=>{
+   btnSignUp.addEventListener("click",async(e)=>{
 
     let inp1 = document.querySelector("#emailAddress");
     let inp2 = document.querySelector("#password");
     let inp3 = document.querySelector("#firstName");
     let inp4 = document.querySelector("#lastName");
+    let inp5=document.querySelector("#age");
   
   
     let studentDTO = {
@@ -443,12 +483,25 @@ async function attachSignUp(){
       lastName: inp4.value,
       email: inp1.value,
       password: inp2.value,
+      age:inp5.value,
     };
 
-      let createdStudent = signUp(studentDTO);
-       attachStartPage(createdStudent.id);
+
+      // let createdStudent = signUp(studentDTO);
+      //  attachStartPage(createdStudent.id);
+
+      try{
+        let signedUp=await signUp(studentDTO);
+       attachStartPage(signedUp.id)
+      
+      }catch(error){
+        attachErrorPageUp();
+      }
+     
    });
+   
 }
+
 
 //functie care ia ca parametru userul si password
 function verifyUser() {

@@ -35,13 +35,11 @@ async function validateLogin(e, pwd){
 }
 
 async function signUp(studentDTO){
-    let data= await api("students/signup",'POST',studentDTO);
-
+    //error cors apare cand path ul este gresit
+    let data= await api("students/signUp",'POST',studentDTO);
     if(data.status==200){
-
         return data.json();
     }else{
-
         throw new Error("forbidden");
     }
 }
